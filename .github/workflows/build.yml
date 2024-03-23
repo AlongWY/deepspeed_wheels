@@ -142,10 +142,8 @@ jobs:
           export PATH=/usr/local/nvidia/bin:/usr/local/nvidia/lib64:$PATH
           export LD_LIBRARY_PATH=/usr/local/nvidia/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
           export CUTLASS_PATH=$(pwd)/cutlass
-          MAX_JOBS=2 TORCH_CUDA_ARCH_LIST="6.1;7.0;7.5;8.0;8.6;8.9;9.0" DS_BUILD_OPS=1 DS_BUILD_SPARSE_ATTN=0 DS_BUILD_EVOFORMER_ATTN=0 python setup.py build_ext -j2 bdist_wheel --dist-dir=dist
-          tmpname=cu${MATRIX_CUDA_VERSION}torch${MATRIX_TORCH_VERSION}
-          wheel_name=$(ls dist/*whl | xargs -n 1 basename | sed "s/+\w*-/+$tmpname-/2")
-          ls dist/*whl |xargs -I {} mv {} dist/${wheel_name}
+          MAX_JOBS=2 TORCH_CUDA_ARCH_LIST="6.1;7.0;7.5;8.0;8.6;8.9;9.0" DS_BUILD_STRING="+cu${MATRIX_CUDA_VERSION}torch${MATRIX_TORCH_VERSION}" DS_BUILD_OPS=1 DS_BUILD_SPARSE_ATTN=0 DS_BUILD_EVOFORMER_ATTN=0 python setup.py build_ext -j2 bdist_wheel --dist-dir=dist
+          wheel_name=$(ls dist/*whl | xargs -n 1 basename)
           echo "wheel_name=${wheel_name}" >> $GITHUB_ENV
 
       - name: Log Built Wheels
