@@ -1,7 +1,3 @@
-# patch
-mv /project/build_scripts/patches/evoformer_atten_v0.14.0.py /project/op_builder/evoformer_attn.py 
-
-
 pip install setuptools==68.0.0 wheel auditwheel-symbols
 pip install lit
 # We want to figure out the CUDA version to download pytorch
