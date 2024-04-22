@@ -68,7 +68,7 @@ jobs:
           path: build_scripts
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -107,7 +107,7 @@ jobs:
           echo "wheel_name=${wheel_name}" >> $GITHUB_ENV
           ls dist
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           path: dist
 
