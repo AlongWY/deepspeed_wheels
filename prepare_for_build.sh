@@ -1,13 +1,3 @@
-# OneCCL
-pip install cmake
-git clone https://github.com/oneapi-src/oneCCL
-cd oneCCL
-mkdir build
-cd build
-cmake ..
-make -j install
-cd /project
-
 pip install setuptools==68.0.0 wheel auditwheel-symbols
 pip install lit
 # We want to figure out the CUDA version to download pytorch
