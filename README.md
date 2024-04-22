@@ -1,6 +1,6 @@
-# Auto Build Deepspeed [![Build](https://github.com/AlongWY/deepspeed_wheels/actions/workflows/build.yml/badge.svg)](https://github.com/AlongWY/deepspeed_wheels/actions/workflows/build.yml)
+# Auto Build [Deepspeed](https://github.com/microsoft/DeepSpeed) [![Build](https://github.com/AlongWY/deepspeed_wheels/actions/workflows/build.yml/badge.svg)](https://github.com/AlongWY/deepspeed_wheels/actions/workflows/build.yml)
 
-自动构建 Deepspeed 的不同版本
+自动构建 [Deepspeed](https://github.com/microsoft/DeepSpeed) 的不同版本
 
 ## Build Args
 
