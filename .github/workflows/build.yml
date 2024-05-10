@@ -72,7 +72,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.11"
 
       - name: Set CUDA and PyTorch versions ${{ matrix.torch-version }}+cu${{ matrix.cuda-version }}
         run: |
