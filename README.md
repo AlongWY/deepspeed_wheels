@@ -9,3 +9,10 @@
 + DS_BUILD_CCL_COMM=0
 + DS_BUILD_SPARSE_ATTN=0
 + DS_BUILD_EVOFORMER_ATTN=0
+
+# 类似项目
++ [Apex Wheels](https://github.com/AlongWY/apex_wheels)
++ [Deepspeed Wheels](https://github.com/AlongWY/deepspeed_wheels)
++ [TransfomrtEngine Wheels](https://github.com/AlongWY/TransformerEngine_wheels)
++ [sglang Docker](https://github.com/AlongWY/sglang-docker)
++ [llamafactory Docker](https://github.com/AlongWY/llamafactory-docker)
