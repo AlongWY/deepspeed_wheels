@@ -22,9 +22,9 @@ if [ -f /etc/os-release ]; then
     # Check if PLATFORM_ID is set and matches "platform:el7" or earlier versions
     if [[ $PLATFORM_ID == "platform:el7" || $PLATFORM_ID < "platform:el7" ]]; then
         echo "Match found. Install libaio 0.3.112..."
-        curl https://pagure.io/libaio/archive/libaio-0.3.112/libaio-libaio-0.3.112.tar.gz -o libaio-libaio-0.3.112.tar.gz
-        tar -zxvf libaio-libaio-0.3.112.tar.gz
-        cd /project/libaio-libaio-0.3.112
+        curl https://pagure.io/libaio/archive/libaio-0.3.112/libaio-libaio-0.3.113.tar.gz -o libaio-libaio-0.3.113.tar.gz
+        tar -zxvf libaio-libaio-0.3.113.tar.gz
+        cd /project/libaio-libaio-0.3.113
         make prefix=/usr install
         cd /project
     fi
