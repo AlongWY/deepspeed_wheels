@@ -96,7 +96,7 @@ jobs:
           python3 -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: cp${{ env.MATRIX_PYTHON_VERSION }}-*64
-          CIBW_MANYLINUX_X86_64_IMAGE: pytorch/manylinux2_28-builder:${{ env.MANYLINUX_CUDA_VERSION }}
+          CIBW_MANYLINUX_X86_64_IMAGE: pytorch/manylinux2_28-builder:cuda${{ env.MANYLINUX_CUDA_VERSION }}
           CIBW_BEFORE_BUILD_LINUX: >
             (yum install -y libaio-devel libffi-devel || apt-get install -y libaio-dev libffi-devel || apk add --update --no-cache libaio-devel libffi-devel || true) &&
             (yum install -y libc6 || apt-get install -y libc6 || apk add --update --no-cache libc6 || true) &&
