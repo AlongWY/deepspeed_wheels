@@ -87,7 +87,7 @@ jobs:
 
       - name: Install cibuildwheel
         run: |
-          echo "MANYLINUX_CUDA_VERSION=$(python -c "from os import environ as env; print({'118': '11.8', '121': '12.3'}[env['MATRIX_CUDA_VERSION']])")" >> $GITHUB_ENV
+          echo "MANYLINUX_CUDA_VERSION=$(python -c "from os import environ as env; print({'118': '11.8', '121': '12.1', '124': '12.4'}[env['MATRIX_CUDA_VERSION']])")" >> $GITHUB_ENV
           python3 -m pip install --upgrade pip
           python3 -m pip install cibuildwheel
 
@@ -96,7 +96,7 @@ jobs:
           python3 -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: cp${{ env.MATRIX_PYTHON_VERSION }}-*64
-          CIBW_MANYLINUX_X86_64_IMAGE: sameli/manylinux2014_x86_64_cuda_${{ env.MANYLINUX_CUDA_VERSION }}
+          CIBW_MANYLINUX_X86_64_IMAGE: pytorch/manylinux2_28-builder:${{ env.MANYLINUX_CUDA_VERSION }}
           CIBW_BEFORE_BUILD_LINUX: >
             (yum install -y libaio-devel libffi-devel || apt-get install -y libaio-dev libffi-devel || apk add --update --no-cache libaio-devel libffi-devel || true) &&
             (yum install -y libc6 || apt-get install -y libc6 || apk add --update --no-cache libc6 || true) &&
