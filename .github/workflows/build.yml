@@ -81,13 +81,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: microsoft/DeepSpeed
-          ref: v0.15.1
+          ref: v0.15.2
 
       - name: Checkout cutlass repo
         uses: actions/checkout@v4
         with:
           repository: NVIDIA/cutlass
-          ref: v3.5.0
+          ref: v3.5.1
           path: cutlass
 
       - name: Checkout utils
