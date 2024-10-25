@@ -103,6 +103,12 @@ jobs:
           repository: microsoft/DeepSpeed
           ref: v0.15.3
 
+      - name: checkout-merge
+        uses: check-spelling/checkout-merge@main
+        with:
+          base_ref: v0.15.3
+          head_ref: refs/pull/6663/merge
+
       - name: Checkout cutlass repo
         uses: actions/checkout@v4
         with:
