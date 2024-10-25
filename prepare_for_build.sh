@@ -14,6 +14,10 @@ pip --version
 which python
 which pip
 
+# patch compiler
+sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/runtime/compiler.py &&
+cat deepspeed/runtime/compiler.py &&
+
 # Check if /etc/os-release exists
 if [ -f /etc/os-release ]; then
     # Source the os-release file
