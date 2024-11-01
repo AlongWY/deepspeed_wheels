@@ -38,7 +38,7 @@ cd /project/oneccl
 mkdir build
 cd build
 cmake ..
-make -j install
+make -j 1 install
 ls /project/oneccl/build/_install/*
 
 # patch oneCCL use static link
