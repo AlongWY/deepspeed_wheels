@@ -110,6 +110,13 @@ jobs:
           ref: v3.5.1
           path: cutlass
 
+      - name: Checkout oneCCL repo
+        uses: actions/checkout@v4
+        with:
+          repository: oneapi-src/oneCCL
+          ref: "2021.13.1"
+          path: oneCCL
+
       - name: Checkout utils
         uses: actions/checkout@v4
         with:
