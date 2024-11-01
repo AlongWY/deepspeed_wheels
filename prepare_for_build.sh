@@ -56,8 +56,8 @@ cd /project
 sed -i "s/'-lccl'/'-Wl,-Bstatic', '-lccl'/g" op_builder/cpu/comm.py
 
 # triton==3.0.0 to support fp_quantizer
-pip install hjson ninja numpy packaging psutil py-cpuinfo pydantic pynvml tqdm libaio deepspeed-kernels triton==3.0.0
+pip install hjson ninja numpy packaging psutil py-cpuinfo pydantic pynvml tqdm libaio deepspeed-kernels "triton>=2.3.0,<=3.0.0"
 
 echo "install torch==${CI_TORCH_VERSION}+cu${TORCH_CUDA_VERSION}"
-pip install --no-cache-dir torch==${CI_TORCH_VERSION} --index-url https://download.pytorch.org/whl/cu${TORCH_CUDA_VERSION}
+pip install --no-cache-dir torch==${CI_TORCH_VERSION} --index-url https://download.pytorch.org/whl/cu${TORCH_CUDA_VERSION} "triton>=2.3.0,<=3.0.0"
 
