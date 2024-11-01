@@ -41,11 +41,11 @@ cmake ..
 make -j 1 install
 ls /project/oneccl/build/_install/*
 
-# patch oneCCL use static link
-sed -i "s/'-lccl'/'-Wl,-Bstatic', '-lccl'/g" op_builder/cpu/comm.py
-
 # back to project
 cd /project
+
+# patch oneCCL use static link
+sed -i "s/'-lccl'/'-Wl,-Bstatic', '-lccl'/g" op_builder/cpu/comm.py
 
 pip install hjson ninja numpy packaging psutil py-cpuinfo pydantic pynvml tqdm libaio deepspeed-kernels triton
 
