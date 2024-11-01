@@ -152,6 +152,7 @@ jobs:
           CIBW_BEFORE_BUILD_LINUX: >
             (yes | dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo || true) &&
             (yum install -y cuda-driver-devel-${{ env.MANYLINUX_CUDA_COMPAT_VERSION }} || true) &&
+            (yum install -y glibc glibc-devel || apt-get install -y libc6-dev || apk add --update --no-cache musl-dev || true) &&
             (yum install -y libffi-devel || apt-get install -y libffi-devel || apk add --update --no-cache libffi-devel || true) &&
             (yum install -y libaio-devel || apt-get install -y libaio1 libaio-devel || apk add --update --no-cache libaio-devel || true) &&
             bash build_scripts/prepare_for_build.sh &&
