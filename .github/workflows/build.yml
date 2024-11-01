@@ -115,7 +115,7 @@ jobs:
         with:
           repository: oneapi-src/oneCCL
           ref: "2021.13.1"
-          path: oneCCL
+          path: oneccl
 
       - name: Checkout utils
         uses: actions/checkout@v4
