@@ -26,8 +26,8 @@ make prefix=/usr install
 cd /project
 
 # For Debug
-ls /usr/lib | grep aio
-ls /usr/include | grep aio
+# ls /usr/lib | grep aio
+# ls /usr/include | grep aio
 
 # patch libaio
 sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/async_io.py
