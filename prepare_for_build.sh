@@ -39,7 +39,9 @@ mkdir build
 cd build
 cmake ..
 make -j 1 install
-ls /project/oneccl/build/_install/*
+
+# For Debug: Disbale it now
+# ls /project/oneccl/build/_install/*
 
 # back to project
 cd /project
