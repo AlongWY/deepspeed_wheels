@@ -17,6 +17,8 @@ which pip
 # patch compiler
 sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/utils/logging.py
 
+# patch oneCCL use static link
+
 # Check if /etc/os-release exists
 if [ -f /etc/os-release ]; then
     # Source the os-release file
@@ -32,6 +34,17 @@ if [ -f /etc/os-release ]; then
         cd /project
     fi
 fi
+
+# install oneCCL: /project/oneccl/build/_install
+cd /project/oneccl
+mkdir build
+cd build
+cmake ..
+make -j install
+ls /project/oneccl/build/_install/*
+
+# back to project
+cd /project
 
 pip install hjson ninja numpy packaging psutil py-cpuinfo pydantic pynvml tqdm libaio deepspeed-kernels triton
 
