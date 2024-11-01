@@ -14,6 +14,10 @@ pip --version
 which python
 which pip
 
+# check dlopen
+echo "check libdl"
+ls /usr/lib64/libdl.so
+
 # patch compiler
 sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/utils/logging.py
 
