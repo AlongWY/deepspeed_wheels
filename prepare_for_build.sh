@@ -1,4 +1,4 @@
-pip install setuptools==68.0.0 wheel auditwheel-symbols
+pip install -U setuptools wheel auditwheel-symbols
 pip install lit
 # We want to figure out the CUDA version to download pytorch
 # e.g. we can have system CUDA version being 11.7 but if torch==1.12 then we need to download the wheel from cu116
