@@ -17,34 +17,35 @@ which pip
 # patch compiler
 sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/utils/logging.py
 
-# Check if /etc/os-release exists
-if [ -f /etc/os-release ]; then
-    # Source the os-release file
-    . /etc/os-release
+# Install libaio
+echo "Install libaio 0.3.113..."
+curl https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz -o libaio-libaio-0.3.113.tar.gz
+tar -zxvf libaio-libaio-0.3.113.tar.gz
+cd /project/libaio-libaio-0.3.113
+make prefix=/usr install
+cd /project
 
-    # Check if PLATFORM_ID is set and matches "platform:el7" or earlier versions
-    if [[ $PLATFORM_ID == "platform:el7" || $PLATFORM_ID < "platform:el7" ]]; then
-        echo "Match found. Install libaio 0.3.113..."
-        curl https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz -o libaio-libaio-0.3.113.tar.gz
-        tar -zxvf libaio-libaio-0.3.113.tar.gz
-        cd /project/libaio-libaio-0.3.113
-        make prefix=/usr install
-        cd /project
-    fi
-fi
+# For Debug
+ls /usr/lib | grep aio
+ls /usr/include | grep aio
+
+# patch libaio
+sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/async_io.py
+sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/cpu/async_io.py
+sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/npu/async_io.py
+sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/xpu/async_io.py
 
 # install oneCCL: /project/oneccl/build/_install
+echo "Install oneCCL"
 cd /project/oneccl
 mkdir build
 cd build
 cmake ..
 make -j 1 install
+cd /project
 
 # For Debug: Disbale it now
 # ls /project/oneccl/build/_install/*
-
-# back to project
-cd /project
 
 # patch oneCCL use static link
 sed -i "s/'-lccl'/'-Wl,-Bstatic', '-lccl'/g" op_builder/cpu/comm.py
