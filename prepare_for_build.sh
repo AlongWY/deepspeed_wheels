@@ -18,16 +18,17 @@ which pip
 sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/utils/logging.py
 
 # Install libaio
-echo "Install libaio 0.3.113..."
-curl https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz -o libaio-libaio-0.3.113.tar.gz
-tar -zxvf libaio-libaio-0.3.113.tar.gz
-cd /project/libaio-libaio-0.3.113
-make prefix=/usr install
-cd /project
+# echo "Install libaio 0.3.113..."
+# curl https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz -o libaio-libaio-0.3.113.tar.gz
+# tar -zxvf libaio-libaio-0.3.113.tar.gz
+# cd /project/libaio-libaio-0.3.113
+# make prefix=/usr install
+# cd /project
 
 # For Debug
-# ls /usr/lib | grep aio
-# ls /usr/include | grep aio
+ls /usr/lib | grep aio
+ls /usr/lib64 | grep aio
+ls /usr/include | grep aio
 
 # patch libaio
 sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/async_io.py
