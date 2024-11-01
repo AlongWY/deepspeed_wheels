@@ -26,15 +26,15 @@ sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") an
 # cd /project
 
 # For Debug
-ls /usr/lib | grep aio
-ls /usr/lib64 | grep aio
-ls /usr/include | grep aio
+# ls /usr/lib | grep aio
+# ls /usr/lib64 | grep aio
+# ls /usr/include | grep aio
 
 # patch libaio
-sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/async_io.py
-sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/cpu/async_io.py
-sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/npu/async_io.py
-sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/xpu/async_io.py
+# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/async_io.py
+# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/cpu/async_io.py
+# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/npu/async_io.py
+# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/xpu/async_io.py
 
 # install oneCCL: /project/oneccl/build/_install
 echo "Install oneCCL"
