@@ -18,6 +18,10 @@ which pip
 echo "check libdl"
 ls /usr/lib64/libdl.so
 
+# build cpu ops also for cuda ops
+sed -i 's/not os.path.isdir(\n\s+os.path.join(op_builder_absolute_path, module_name))/(not os.path.isdir(os.path.join(op_builder_absolute_path, module_name)) or module_name == 'cpu')/g' accelerator/cuda_accelerator.py
+sed -n '331,334p' accelerator/cuda_accelerator.py
+
 # patch compiler only for 0.15.3
 # sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/utils/logging.py
 
