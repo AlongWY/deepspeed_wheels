@@ -18,8 +18,8 @@ which pip
 echo "check libdl"
 ls /usr/lib64/libdl.so
 
-# patch compiler
-sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/utils/logging.py
+# patch compiler only for 0.15.3
+# sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/utils/logging.py
 
 # Install libaio
 # echo "Install libaio 0.3.113..."
