@@ -14,46 +14,45 @@ pip --version
 which python
 which pip
 
-# check dlopen
-echo "check libdl"
-ls /usr/lib64/libdl.so
 
-# patch compiler only for 0.15.3
-# sed -i 's/torch.compiler.is_compiling/hasattr(torch.compiler, "is_compiling") and torch.compiler.is_compiling/g' deepspeed/utils/logging.py
 
 # Install libaio
-# echo "Install libaio 0.3.113..."
-# curl https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz -o libaio-libaio-0.3.113.tar.gz
-# tar -zxvf libaio-libaio-0.3.113.tar.gz
-# cd /project/libaio-libaio-0.3.113
-# make prefix=/usr install
-# cd /project
+echo "Install libaio 0.3.113..."
+curl https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz -o libaio-libaio-0.3.113.tar.gz
+tar -zxvf libaio-libaio-0.3.113.tar.gz
+cd /project/libaio-libaio-0.3.113
+make prefix=/usr install
+cd /project
 
-# For Debug
-# ls /usr/lib | grep aio
-# ls /usr/lib64 | grep aio
-# ls /usr/include | grep aio
-
-# patch libaio
-# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/async_io.py
-# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/cpu/async_io.py
-# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/npu/async_io.py
-# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio'/g" op_builder/xpu/async_io.py
-
-# install oneCCL: /project/oneccl/build/_install
+# install oneCCL: /project/oneCCL/build/_install
 echo "Install oneCCL"
-cd /project/oneccl
+cd /project/oneCCL
 mkdir build
 cd build
 cmake ..
 make -j 1 install
 cd /project
 
-# For Debug: Disbale it now
-# ls /project/oneccl/build/_install/*
+# patch "setup.py" and "deepspeed/env_report.py" to support ops of different accelerators
+echo "Patch setup.py and env_report.py"
+sed -i "s/'{accelerator_name}'/{{'{accelerator_name}', 'cpu'}}/g" setup.py
+sed -i "s/accelerator_name == get_accelerator()._name/get_accelerator()._name in accelerator_name/g" deepspeed/env_report.py
+
+# patch libaio
+echo "Patch libaio"
+sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic'/g" op_builder/async_io.py
+sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic'/g" op_builder/cpu/async_io.py
+
+# not support xpu and npu now
+# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic'/g" op_builder/npu/async_io.py
+# sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic'/g" op_builder/xpu/async_io.py
 
 # patch oneCCL use static link
-sed -i "s/'-lccl'/'-Wl,-Bstatic', '-lccl'/g" op_builder/cpu/comm.py
+sed -i "s/'-lccl'/'-Wl,-Bstatic', '-lccl', '-Wl,-Bdynamic'/g" op_builder/cpu/comm.py
+
+# force compile comm ops
+cp op_builder/cpu/comm.py op_builder/comm.py
+sed -i 's/CPUOpBuilder/TorchCPUOpBuilder/g' op_builder/comm.py
 
 # triton==3.0.0 to support fp_quantizer
 pip install hjson ninja numpy packaging psutil py-cpuinfo pydantic pynvml tqdm libaio deepspeed-kernels "triton>=2.3.0,<=3.0.0"
