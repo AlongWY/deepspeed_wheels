@@ -47,6 +47,9 @@ sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic'/g" op_builder/cpu/asy
 # sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic'/g" op_builder/npu/async_io.py
 # sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic'/g" op_builder/xpu/async_io.py
 
+# patch cufile use static link ?
+# sed -i "s/'-lcufile'/'-Wl,-Bstatic', '-lcufile_static', '-Wl,-Bdynamic'/g" op_builder/gds.py
+
 # patch oneCCL use static link
 sed -i "s/'-lccl'/'-Wl,-Bstatic', '-lccl', '-Wl,-Bdynamic'/g" op_builder/cpu/comm.py
 
