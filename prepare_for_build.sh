@@ -37,6 +37,8 @@ cd /project
 echo "Patch setup.py and env_report.py"
 sed -i "s/'{accelerator_name}'/{{'{accelerator_name}', 'cpu'}}/g" setup.py
 sed -i "s/accelerator_name == get_accelerator()._name/get_accelerator()._name in accelerator_name/g" deepspeed/env_report.py
+sed -i "s/accelerator_name == get_accelerator()._name/get_accelerator()._name in accelerator_name/g" op_builder/builder.py
+sed -i "s/accelerator_name == get_accelerator()._name/get_accelerator()._name in accelerator_name/g" op_builder/xpu/builder.py
 
 # patch libaio
 echo "Patch libaio"
