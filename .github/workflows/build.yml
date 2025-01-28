@@ -101,13 +101,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: microsoft/DeepSpeed
-          ref: v0.16.2
+          ref: v0.16.3
 
       - name: Checkout cutlass repo
         uses: actions/checkout@v4
         with:
           repository: NVIDIA/cutlass
-          ref: v3.5.1
+          ref: v3.7.0
           path: cutlass
 
       - name: Checkout oneCCL repo
