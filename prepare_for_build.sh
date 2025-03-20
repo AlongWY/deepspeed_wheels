@@ -14,8 +14,6 @@ pip --version
 which python
 which pip
 
-
-
 # Install libaio
 echo "Install libaio 0.3.113..."
 curl https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz -o libaio-libaio-0.3.113.tar.gz
