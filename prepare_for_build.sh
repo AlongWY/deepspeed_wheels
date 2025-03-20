@@ -55,6 +55,9 @@ sed -i "s/'-laio'/'-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic'/g" op_builder/cpu/asy
 # patch oneCCL use static link
 sed -i "s/'-lccl'/'-Wl,-Bstatic', '-lccl', '-Wl,-Bdynamic'/g" op_builder/cpu/comm.py
 
+# patch cuda triton
+cp build_scripts/cuda_accelerator.py accelerator/cuda_accelerator.py
+
 # force compile comm ops
 cp op_builder/cpu/comm.py op_builder/comm.py
 sed -i 's/CPUOpBuilder/TorchCPUOpBuilder/g' op_builder/comm.py
