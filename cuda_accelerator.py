@@ -243,7 +243,11 @@ class CUDA_Accelerator(DeepSpeedAccelerator):
 
     def is_triton_supported(self):
         if not torch.cuda.is_available():
-            return False
+            try:
+                import triton  # noqa: F401 # type: ignore
+                return True
+            except ImportError:
+                return False
         major, _ = torch.cuda.get_device_capability()
         if major >= 8:
             return True
