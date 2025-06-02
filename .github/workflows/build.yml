@@ -456,7 +456,7 @@ jobs:
       - name: Checkout oneCCL repo
         uses: actions/checkout@v4
         with:
-          repository: oneapi-src/oneCCL
+          repository: uxlfoundation/oneCCL
           ref: "2021.15.2"
           path: oneCCL
 
