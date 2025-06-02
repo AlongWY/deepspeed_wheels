@@ -1,5 +1,5 @@
 pip install -U "setuptools<=77.0.1" wheel auditwheel-symbols
-pip install lit
+pip install lit cmake
 # We want to figure out the CUDA version to download pytorch
 # e.g. we can have system CUDA version being 11.7 but if torch==1.12 then we need to download the wheel from cu116
 # see https://github.com/pytorch/pytorch/blob/main/RELEASE.md#release-compatibility-matrix
@@ -11,8 +11,10 @@ export TORCH_CUDA_VERSION=$(python -c "from os import environ as env; \
 )
 python --version
 pip --version
+cmake --version
 which python
 which pip
+which cmake
 
 # Install libaio
 echo "Install libaio 0.3.113..."
@@ -30,8 +32,6 @@ cd build
 cmake ..
 make -j 1 install
 cd /project
-
-ls /project/oneCCL/build/_install/*
 
 # patch "setup.py" and "deepspeed/env_report.py" to support ops of different accelerators
 echo "Patch setup.py and env_report.py"
