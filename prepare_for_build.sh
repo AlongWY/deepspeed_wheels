@@ -31,6 +31,8 @@ cmake ..
 make -j 1 install
 cd /project
 
+ls /project/oneCCL/build/_install
+
 # patch "setup.py" and "deepspeed/env_report.py" to support ops of different accelerators
 echo "Patch setup.py and env_report.py"
 sed -i "s/'{accelerator_name}'/{{'{accelerator_name}', 'cpu'}}/g" setup.py
