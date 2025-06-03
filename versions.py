@@ -8,7 +8,7 @@ versions = {
     "2.4.1": {"python": [8, 9, 10, 11], "cuda": [118, 121, 124], "deepcompile": 0},
     "2.5.1": {"python": [9, 10, 11, 12], "cuda": [118, 121, 124], "deepcompile": 0},
     "2.6.0": {"python": [9, 10, 11, 12], "cuda": [118, 124, 126], "deepcompile": 1},
-    "2.7.0": {"python": [9, 10, 11, 12], "cuda": [118, 126, 128], "deepcompile": 1},
+    "2.7.0": {"python": [9, 10, 11, 12, 13], "cuda": [118, 126, 128], "deepcompile": 1},
 }
 
 cuda_version_mapping = {
