@@ -1,3 +1,6 @@
+# see https://github.com/pytorch/pytorch/blob/main/RELEASE.md#release-compatibility-matrix
+import yaml
+
 versions = {
     "1.12.1": {"python": [8, 9, 10], "cuda": [113, 116], "deepcompile": 0},
     "1.13.1": {"python": [8, 9, 10], "cuda": [113, 117], "deepcompile": 0},
@@ -8,8 +11,8 @@ versions = {
     "2.4.1": {"python": [8, 9, 10, 11], "cuda": [118, 121, 124], "deepcompile": 0},
     "2.5.1": {"python": [9, 10, 11, 12], "cuda": [118, 121, 124], "deepcompile": 0},
     "2.6.0": {"python": [9, 10, 11, 12], "cuda": [118, 124, 126], "deepcompile": 1},
-    "2.7.0": {"python": [9, 10, 11, 12, 13], "cuda": [118, 126, 128], "deepcompile": 1},
-    "2.8.0": {"python": [9, 10, 11, 12, 13], "cuda": [126, 128, 129], "deepcompile": 1},
+    "2.7.1": {"python": [9, 10, 11, 12, 13], "cuda": [118, 126, 128], "deepcompile": 1},
+    # "2.8.0": {"python": [9, 10, 11, 12, 13], "cuda": [126, 128, 129], "deepcompile": 1},
 }
 
 cuda_version_mapping = {
@@ -38,14 +41,14 @@ pairs = []
 for torch_version, pycu in versions.items():
     for python_version in pycu["python"]:
         python_version = f"3.{python_version}"
-        for cuda_version in pycu["cuda"]:
-            cuda_version = cuda_version_mapping[cuda_version]
-            pair = (torch_version, python_version, cuda_version)
+        for raw_cuda_version in pycu["cuda"]:
+            cuda_version = cuda_version_mapping[raw_cuda_version]
+            pair = (torch_version, python_version, cuda_version, raw_cuda_version)
             if pair not in pairs_set:
                 pairs.append(pair)
                 pairs_set.add(pair)
 
-for torch_version, python_version, cuda_version in pairs:
+for torch_version, python_version, cuda_version, raw_cuda_version in pairs:
     print(f'- torch-version: "{torch_version}"')
     print(f'  python-version: "{python_version}"')
     print(f'  cuda-version: "{cuda_version}"')
@@ -55,5 +58,5 @@ for torch_version, python_version, cuda_version in pairs:
     print(f'  cibw-build: "cp{python_version.replace(".", "")}-*64"')
     print(f'  cibw-build-image: "pytorch/manylinux2_28-builder:cuda{cuda_version[:-2]}"')
     print(f'  cibw-build-cuda-version: "{cuda_version[:-2]}"')
-    print(f'  cibw-build-torch-cuda-version: "{cuda_version[:-2].replace(".", "")}"')
+    print(f'  cibw-build-torch-cuda-version: "{raw_cuda_version}"')
     print(f'  cibw-build-cuda-compat-version: "{cuda_version[:-2].replace(".", "-")}"')
