@@ -9,6 +9,7 @@ versions = {
     "2.5.1": {"python": [9, 10, 11, 12], "cuda": [118, 121, 124], "deepcompile": 0},
     "2.6.0": {"python": [9, 10, 11, 12], "cuda": [118, 124, 126], "deepcompile": 1},
     "2.7.0": {"python": [9, 10, 11, 12, 13], "cuda": [118, 126, 128], "deepcompile": 1},
+    "2.8.0": {"python": [9, 10, 11, 12, 13], "cuda": [126, 128, 129], "deepcompile": 1},
 }
 
 cuda_version_mapping = {
@@ -20,6 +21,7 @@ cuda_version_mapping = {
     124: "12.4.0",
     126: "12.6.0",
     128: "12.8.0",
+    129: "12.9.0",
 }
 
 cuda_arch = {
@@ -28,6 +30,7 @@ cuda_arch = {
     "12.4.0": "6.0;6.1;7.0;7.5;8.0;8.6;8.9;9.0+PTX",
     "12.6.0": "6.0;6.1;7.0;7.5;8.0;8.6;8.9;9.0+PTX",
     "12.8.0": "6.0;6.1;7.0;7.5;8.0;8.6;8.9;9.0;10.0;12.0+PTX",
+    "12.9.0": "6.0;6.1;7.0;7.5;8.0;8.6;8.9;9.0;10.0;12.0+PTX",
 }
 
 pairs_set = set()
@@ -43,8 +46,15 @@ for torch_version, pycu in versions.items():
                 pairs_set.add(pair)
 
 for torch_version, python_version, cuda_version in pairs:
-    print(f"- torch-version: \"{torch_version}\"")
-    print(f"  python-version: \"{python_version}\"")
-    print(f"  cuda-version: \"{cuda_version}\"")
-    print(f"  arch: \"{cuda_arch[cuda_version]}\"")
+    torch_version_full = torch_version + "+cu" + cuda_version[:-2].replace(".", "")
+    print(f'- torch-version: "{torch_version_full}"')
+    print(f'  python-version: "{python_version}"')
+    print(f'  cuda-version: "{cuda_version}"')
+    print(f'  arch: "{cuda_arch[cuda_version]}"')
     print(f"  deepcompile: {versions[torch_version]['deepcompile']}")
+
+    print(f'  cibw-build: "cp{python_version.replace(".", "")}-*64"')
+    print(f'  cibw-build-image: "pytorch/manylinux2_28-builder:cuda{cuda_version[:-2]}"')
+    print(f'  cibw-build-cuda-version: "{cuda_version[:-2]}"')
+    print(f'  cibw-build-torch-cuda-version: "{cuda_version[:-2].replace(".", "")}"')
+    print(f'  cibw-build-cuda-compat-version: "{cuda_version[:-2].replace(".", "-")}"')

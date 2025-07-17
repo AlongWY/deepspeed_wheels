@@ -1,0 +1,118 @@
+diff --git a/accelerator/cuda_accelerator.py b/accelerator/cuda_accelerator.py
+index 3046f4bc..78c8de24 100644
+--- a/accelerator/cuda_accelerator.py
++++ b/accelerator/cuda_accelerator.py
+@@ -60,9 +60,6 @@ class CUDA_Accelerator(DeepSpeedAccelerator):
+             return 'cuda'
+         return 'cuda:{}'.format(device_index)
+ 
+-    def communication_backend_version(self):
+-        return torch.cuda.nccl.version()
+-
+     def device(self, device_index=None):
+         return torch.cuda.device(device_index)
+ 
+@@ -245,6 +242,8 @@ class CUDA_Accelerator(DeepSpeedAccelerator):
+         return self._communication_backend_name
+ 
+     def is_triton_supported(self):
++        if not torch.cuda.is_available():
++            return False
+         major, _ = torch.cuda.get_device_capability()
+         if major >= 8:
+             return True
+diff --git a/deepspeed/env_report.py b/deepspeed/env_report.py
+index 37e33b1e..6733f6cc 100644
+--- a/deepspeed/env_report.py
++++ b/deepspeed/env_report.py
+@@ -52,7 +52,7 @@ def op_report(verbose=True):
+         dots = "." * (max_dots - len(op_name))
+         is_compatible = OKAY if builder.is_compatible(verbose) else no
+         is_installed = installed if installed_ops.get(op_name,
+-                                                      False) and accelerator_name == get_accelerator()._name else no
++                                                      False) and get_accelerator()._name in accelerator_name else no
+         dots2 = '.' * ((len(h[1]) + (max_dots2 - len(h[1]))) - (len(is_installed) - color_len))
+         print(op_name, dots, is_installed, dots2, is_compatible)
+     print("-" * (max_dots + max_dots2 + len(h[0]) + len(h[1])))
+diff --git a/op_builder/async_io.py b/op_builder/async_io.py
+index f59cc681..68ad543d 100644
+--- a/op_builder/async_io.py
++++ b/op_builder/async_io.py
+@@ -66,10 +66,10 @@ class AsyncIOBuilder(TorchCPUOpBuilder):
+         import torch.utils.cpp_extension
+         CUDA_HOME = torch.utils.cpp_extension.CUDA_HOME
+         if CUDA_HOME is None:
+-            ldflags = ['-laio']  # the ROCM case
++            ldflags = ['-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic']  # the ROCM case
+         else:
+             CUDA_LIB64 = os.path.join(CUDA_HOME, "lib64")
+-            ldflags = [f'-L{CUDA_HOME}', f'-L{CUDA_LIB64}', '-laio', '-lcuda', '-lcudart']
++            ldflags = [f'-L{CUDA_HOME}', f'-L{CUDA_LIB64}', '-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic', '-lcuda', '-lcudart']
+         return ldflags
+ 
+     def check_for_libaio_pkg(self):
+diff --git a/op_builder/builder.py b/op_builder/builder.py
+index aef7d503..397917f7 100644
+--- a/op_builder/builder.py
++++ b/op_builder/builder.py
+@@ -525,7 +525,7 @@ class OpBuilder(ABC):
+ 
+         from deepspeed.git_version_info import installed_ops, torch_info, accelerator_name
+         from deepspeed.accelerator import get_accelerator
+-        if installed_ops.get(self.name, False) and accelerator_name == get_accelerator()._name:
++        if installed_ops.get(self.name, False) and get_accelerator()._name in accelerator_name:
+             # Ensure the op we're about to load was compiled with the same
+             # torch/cuda versions we are currently using at runtime.
+             self.validate_torch_version(torch_info)
+diff --git a/op_builder/cpu/async_io.py b/op_builder/cpu/async_io.py
+index dcb9feab..5f4a7130 100644
+--- a/op_builder/cpu/async_io.py
++++ b/op_builder/cpu/async_io.py
+@@ -48,7 +48,7 @@ class AsyncIOBuilder(CPUOpBuilder):
+         return args
+ 
+     def extra_ldflags(self):
+-        return ['-laio', '-fopenmp']
++        return ['-Wl,-Bstatic', '-laio', '-Wl,-Bdynamic', '-fopenmp']
+ 
+     def check_for_libaio_pkg(self):
+         libs = dict(
+diff --git a/op_builder/cpu/comm.py b/op_builder/cpu/comm.py
+index fec960b6..f1becba1 100644
+--- a/op_builder/cpu/comm.py
++++ b/op_builder/cpu/comm.py
+@@ -41,7 +41,7 @@ class CCLCommBuilder(CPUOpBuilder):
+             )
+             return []
+         else:
+-            return ['-lccl', f'-L{ccl_root_path}/lib']
++            return ['-Wl,-Bstatic', '-lccl', '-Wl,-Bdynamic', f'-L{ccl_root_path}/lib']
+ 
+ 
+ class ShareMemCommBuilder(CPUOpBuilder):
+diff --git a/op_builder/xpu/builder.py b/op_builder/xpu/builder.py
+index 81b15f19..ea40d12b 100644
+--- a/op_builder/xpu/builder.py
++++ b/op_builder/xpu/builder.py
+@@ -76,7 +76,7 @@ class SYCLOpBuilder(OpBuilder):
+     def load(self, verbose=True):
+         from deepspeed.git_version_info import installed_ops, torch_info, accelerator_name  # noqa: F401
+         from deepspeed.accelerator import get_accelerator
+-        if installed_ops.get(self.name, False) and accelerator_name == get_accelerator()._name:
++        if installed_ops.get(self.name, False) and get_accelerator()._name in accelerator_name:
+             return importlib.import_module(self.absolute_name())
+         else:
+             return self.jit_load(verbose)
+diff --git a/setup.py b/setup.py
+index 12e65dd0..20882971 100755
+--- a/setup.py
++++ b/setup.py
+@@ -287,7 +287,7 @@ with open('deepspeed/git_version_info_installed.py', 'w') as fd:
+     fd.write(f"git_hash='{git_hash}'\n")
+     fd.write(f"git_branch='{git_branch}'\n")
+     fd.write(f"installed_ops={install_ops}\n")
+-    fd.write(f"accelerator_name='{accelerator_name}'\n")
++    fd.write(f"accelerator_name={{'{accelerator_name}', 'cpu'}}\n")
+     fd.write(f"torch_info={torch_info}\n")
+ 
+ print(f'install_requires={install_requires}')
