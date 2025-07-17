@@ -46,8 +46,7 @@ for torch_version, pycu in versions.items():
                 pairs_set.add(pair)
 
 for torch_version, python_version, cuda_version in pairs:
-    torch_version_full = torch_version + "+cu" + cuda_version[:-2].replace(".", "")
-    print(f'- torch-version: "{torch_version_full}"')
+    print(f'- torch-version: "{torch_version}"')
     print(f'  python-version: "{python_version}"')
     print(f'  cuda-version: "{cuda_version}"')
     print(f'  arch: "{cuda_arch[cuda_version]}"')
