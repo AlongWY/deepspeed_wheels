@@ -3,7 +3,7 @@ import yaml
 
 versions = {
     "1.12.1": {"python": [8, 9, 10], "cuda": [113, 116], "deepcompile": 0},
-    "1.13.1": {"python": [8, 9, 10], "cuda": [113, 117], "deepcompile": 0},
+    "1.13.1": {"python": [8, 9, 10], "cuda": [116, 117], "deepcompile": 0},
     "2.0.1": {"python": [8, 9, 10, 11], "cuda": [117, 118], "deepcompile": 0},
     "2.1.2": {"python": [8, 9, 10, 11], "cuda": [118, 121], "deepcompile": 0},
     "2.2.2": {"python": [8, 9, 10, 11], "cuda": [118, 121], "deepcompile": 0},
