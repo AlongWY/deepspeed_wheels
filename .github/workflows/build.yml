@@ -1005,6 +1005,10 @@ jobs:
         with:
           path: build_scripts
 
+      - name: Apply Patch
+        run: |
+          git apply --ignore-space-change --ignore-whitespace build_scripts/patches/0001-STATIC-COMPILE.patch
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -1027,7 +1031,6 @@ jobs:
             (yum install -y glibc glibc-devel cmake || apt-get install -y libc6-dev cmake || apk add --update --no-cache musl-dev || true) &&
             (yum install -y libffi-devel || apt-get install -y libffi-devel || apk add --update --no-cache libffi-devel || true) &&
             pip install cmake hjson ninja numpy packaging psutil py-cpuinfo pydantic pynvml tqdm libaio deepspeed-kernels &&
-            pip install "triton>=2.3.0,<=3.0.0" &&
             pip install --no-cache-dir torch==${{ matrix.torch-version }} --index-url https://download.pytorch.org/whl/cu${{ matrix.cibw-build-torch-cuda-version }} &&
             bash build_scripts/prepare_for_build.sh
           CIBW_ENVIRONMENT: > 

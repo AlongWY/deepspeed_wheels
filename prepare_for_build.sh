@@ -14,9 +14,3 @@ cd build
 cmake ..
 make -j 1 install
 cd /project
-
-# apply patch
-echo "Apply v0.17.2.patch"
-git apply /project/build_scripts/v0.17.2.patch
-
-

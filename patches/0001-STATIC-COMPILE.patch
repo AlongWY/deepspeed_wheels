@@ -1,18 +1,8 @@
 diff --git a/accelerator/cuda_accelerator.py b/accelerator/cuda_accelerator.py
-index 3046f4bc..78c8de24 100644
+index 3046f4bc..8bed83dc 100644
 --- a/accelerator/cuda_accelerator.py
 +++ b/accelerator/cuda_accelerator.py
-@@ -60,9 +60,6 @@ class CUDA_Accelerator(DeepSpeedAccelerator):
-             return 'cuda'
-         return 'cuda:{}'.format(device_index)
- 
--    def communication_backend_version(self):
--        return torch.cuda.nccl.version()
--
-     def device(self, device_index=None):
-         return torch.cuda.device(device_index)
- 
-@@ -245,6 +242,8 @@ class CUDA_Accelerator(DeepSpeedAccelerator):
+@@ -245,6 +245,8 @@ class CUDA_Accelerator(DeepSpeedAccelerator):
          return self._communication_backend_name
  
      def is_triton_supported(self):
