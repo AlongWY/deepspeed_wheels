@@ -1034,6 +1034,7 @@ jobs:
             pip install --no-cache-dir torch==${{ matrix.torch-version }} --index-url https://download.pytorch.org/whl/cu${{ matrix.cibw-build-torch-cuda-version }} &&
             bash build_scripts/prepare_for_build.sh
           CIBW_ENVIRONMENT: > 
+            CIBW_VENV=0 
             CUDA_HOME="${{ matrix.cibw-build-cuda-version }}" 
             TORCH_CUDA_ARCH_LIST="${{ matrix.arch }}" 
             DS_BUILD_STRING="+${{ matrix.torch-version }}cu{{ matrix.cibw-build-torch-cuda-version }}" 
