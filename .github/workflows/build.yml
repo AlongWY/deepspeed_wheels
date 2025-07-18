@@ -1017,7 +1017,7 @@ jobs:
       - name: Install cibuildwheel
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install cibuildwheel
+          python3 -m pip install "cibuildwheel<3.0"
 
       - name: Build wheels for Pytorch ${{ matrix.torch-version }} + CUDA ${{ matrix.cibw-build-torch-cuda-version }}
         run: |
