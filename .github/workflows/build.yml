@@ -1037,7 +1037,7 @@ jobs:
             CIBW_VENV=0 
             CUDA_HOME="/usr/local/cuda-${{ matrix.cibw-build-cuda-version }}" 
             TORCH_CUDA_ARCH_LIST="${{ matrix.arch }}" 
-            DS_BUILD_STRING="+${{ matrix.torch-version }}cu{{ matrix.cibw-build-torch-cuda-version }}" 
+            DS_BUILD_STRING="+${{ matrix.torch-version }}cu${{ matrix.cibw-build-torch-cuda-version }}" 
             DS_BUILD_OPS=1 
             DS_BUILD_EVOFORMER_ATTN=0 
             DS_BUILD_DEEP_COMPILE=${{ matrix.deepcompile }} 
