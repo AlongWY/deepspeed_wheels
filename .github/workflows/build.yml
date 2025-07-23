@@ -1035,7 +1035,7 @@ jobs:
             bash build_scripts/prepare_for_build.sh
           CIBW_ENVIRONMENT: > 
             CIBW_VENV=0 
-            CUDA_HOME="${{ matrix.cibw-build-cuda-version }}" 
+            CUDA_HOME="/usr/local/cuda-${{ matrix.cibw-build-cuda-version }}" 
             TORCH_CUDA_ARCH_LIST="${{ matrix.arch }}" 
             DS_BUILD_STRING="+${{ matrix.torch-version }}cu{{ matrix.cibw-build-torch-cuda-version }}" 
             DS_BUILD_OPS=1 
