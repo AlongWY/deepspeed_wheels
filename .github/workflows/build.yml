@@ -1050,7 +1050,7 @@ jobs:
             LD_LIBRARY_PATH="/usr/lib64" 
             LDFLAGS="-ldl -L/usr/local/cuda-${{ matrix.cibw-build-cuda-version }}/targets/x86_64-linux/lib/stubs" 
           CIBW_SKIP: "*musllinux*"
-          CIBW_REPAIR_WHEEL_COMMAND_LINUX: "auditwheel repair -w /tmp/cibuildwheel/repaired_wheel {wheel} --exclude libc10.so --exclude libc10*.so --exclude libtorch.so --exclude libtorch*.so --exclude libcu*.so"
+          CIBW_REPAIR_WHEEL_COMMAND_LINUX: "auditwheel repair -w /tmp/cibuildwheel/repaired_wheel {wheel} --exclude libc10.so --exclude libc10* --exclude libtorch.so --exclude libtorch* --exclude libcu*"
           CIBW_TEST_COMMAND: (DS_ACCELERATOR=cuda ds_report || true) && (DS_ACCELERATOR=cpu ds_report || true)
 
       - name: Log Built Wheels
