@@ -12,4 +12,3 @@
 + [Apex Wheels](https://github.com/AlongWY/apex_wheels)
 + [Deepspeed Wheels](https://github.com/AlongWY/deepspeed_wheels)
 + [TransfomrtEngine Wheels](https://github.com/AlongWY/TransformerEngine_wheels)
-+ [llamafactory Docker](https://github.com/AlongWY/llamafactory-docker)
