@@ -1,16 +1,3 @@
-diff --git a/accelerator/cuda_accelerator.py b/accelerator/cuda_accelerator.py
-index 3046f4bc..8bed83dc 100644
---- a/accelerator/cuda_accelerator.py
-+++ b/accelerator/cuda_accelerator.py
-@@ -245,6 +245,8 @@ class CUDA_Accelerator(DeepSpeedAccelerator):
-         return self._communication_backend_name
- 
-     def is_triton_supported(self):
-+        if not torch.cuda.is_available():
-+            return False
-         major, _ = torch.cuda.get_device_capability()
-         if major >= 8:
-             return True
 diff --git a/deepspeed/env_report.py b/deepspeed/env_report.py
 index 37e33b1e..6733f6cc 100644
 --- a/deepspeed/env_report.py
