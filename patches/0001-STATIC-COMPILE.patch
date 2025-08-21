@@ -11,6 +11,19 @@ index 20932d31..fe1a4ddb 100644
          dots2 = '.' * ((len(h[1]) + (max_dots2 - len(h[1]))) - (len(is_installed) - color_len))
          print(op_name, dots, is_installed, dots2, is_compatible)
      print("-" * (max_dots + max_dots2 + len(h[0]) + len(h[1])))
+diff --git a/deepspeed/ops/adam/zenflow_torch_adam.py b/deepspeed/ops/adam/zenflow_torch_adam.py
+index e3b41510..b1b972cc 100644
+--- a/deepspeed/ops/adam/zenflow_torch_adam.py
++++ b/deepspeed/ops/adam/zenflow_torch_adam.py
+@@ -10,7 +10,7 @@ from torch import Tensor
+ from deepspeed.utils.torch import required_torch_version
+ 
+ # Check if we have PyTorch >= 2.0 for ZenFlow features
+-_ZENFLOW_AVAILABLE = required_torch_version(min_version=2.1)
++_ZENFLOW_AVAILABLE = required_torch_version(min_version=2.4)
+ 
+ if _ZENFLOW_AVAILABLE:
+     try:
 diff --git a/op_builder/async_io.py b/op_builder/async_io.py
 index f59cc681..68ad543d 100644
 --- a/op_builder/async_io.py
