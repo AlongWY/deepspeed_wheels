@@ -1,5 +1,5 @@
 diff --git a/deepspeed/env_report.py b/deepspeed/env_report.py
-index 37e33b1e..6733f6cc 100644
+index 20932d31..fe1a4ddb 100644
 --- a/deepspeed/env_report.py
 +++ b/deepspeed/env_report.py
 @@ -52,7 +52,7 @@ def op_report(verbose=True):
@@ -29,10 +29,10 @@ index f59cc681..68ad543d 100644
  
      def check_for_libaio_pkg(self):
 diff --git a/op_builder/builder.py b/op_builder/builder.py
-index aef7d503..397917f7 100644
+index 6eed2efc..648cacaa 100644
 --- a/op_builder/builder.py
 +++ b/op_builder/builder.py
-@@ -525,7 +525,7 @@ class OpBuilder(ABC):
+@@ -524,7 +524,7 @@ class OpBuilder(ABC):
  
          from deepspeed.git_version_info import installed_ops, torch_info, accelerator_name
          from deepspeed.accelerator import get_accelerator
@@ -55,12 +55,12 @@ index dcb9feab..5f4a7130 100644
      def check_for_libaio_pkg(self):
          libs = dict(
 diff --git a/op_builder/cpu/comm.py b/op_builder/cpu/comm.py
-index fec960b6..f1becba1 100644
+index 8f5a35d0..f818b3f6 100644
 --- a/op_builder/cpu/comm.py
 +++ b/op_builder/cpu/comm.py
-@@ -41,7 +41,7 @@ class CCLCommBuilder(CPUOpBuilder):
+@@ -40,7 +40,7 @@ class CCLCommBuilder(CPUOpBuilder):
+                 "Didn't find CCL_ROOT, install oneCCL from https://github.com/oneapi-src/oneCCL and source its environment variable"
              )
-             return []
          else:
 -            return ['-lccl', f'-L{ccl_root_path}/lib']
 +            return ['-Wl,-Bstatic', '-lccl', '-Wl,-Bdynamic', f'-L{ccl_root_path}/lib']
