@@ -1193,9 +1193,9 @@ jobs:
             DS_BUILD_DEEP_COMPILE=${{ matrix.deepcompile }} 
             DS_ACCELERATOR=cuda 
             CUTLASS_PATH=/project/cutlass 
-            CCL_ROOT="/project/oneCCL/build/_install" 
+            CCL_ROOT="/oneCCL" 
             AUDITWHEEL_PLAT="manylinux_2_28_$(uname -m)" 
-            CPATH="/project/oneCCL/build/_install/include" 
+            CPATH="/oneCCL/include" 
             LIBRARY_PATH="/usr/lib64" 
             LD_LIBRARY_PATH="/usr/lib64" 
             LDFLAGS="-ldl -L/usr/local/cuda-${{ matrix.cibw-build-cuda-version }}/targets/x86_64-linux/lib/stubs" 
